@@ -36,3 +36,21 @@
     transform: rotate(360deg);
   }
 }
+
+.content {
+  text-align: center;
+  width: 30rem;
+  margin: 0 auto;
+}
+
+table {
+  border: 1px solid #dcdcdc;
+  width: 30rem;
+  margin-bottom: 3rem;
+}
+
+td {
+  border-bottom: 1px solid #dcdcdc;
+  line-height: 3rem;
+  height: 3rem;
+}
