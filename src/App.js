@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
+import Items from "./components/Items";
+import Todo from "./models/todo";
+const todo = new Todo([]);
 
 export default function App() {
   const input = useInput("");
-  const list = useList([], input.value);
+  const list = todo.list;
   const doAdd = () => {
-    list.doAdd();
+    todo.add({ title: input.value, done: false });
     input.clear();
+  };
+  const doDelete = e => {
+    todo.remove(e);
   };
   useEffect(() => {
     document.title = "Wecome to Tenfold Todo List";
@@ -16,7 +22,15 @@ export default function App() {
       <h1>Todo List</h1>
       <div className="content">
         <table>
-          <tbody>{<Items {...list} />}</tbody>
+          <tbody>
+            {
+              <Items
+                value={list}
+                doDelete={doDelete}
+                doDone={e => todo.done(e)}
+              />
+            }
+          </tbody>
         </table>
         <input value={input.value} onChange={input.onChange} />
         <button onClick={doAdd}> Add </button>
@@ -52,24 +66,4 @@ function useList(initValue, inputValue) {
     doDelete,
     doDone
   };
-}
-
-function Items(props) {
-  const { value, doDelete, doDone } = props;
-  return value.map((r, i) => (
-    <tr key={i}>
-      <td>
-        <input
-          type="checkbox"
-          value={i}
-          checked={r.done}
-          onChange={e => doDone(e.target.value)}
-        />
-      </td>
-      <td>{r.done ? <s>{r.title}</s> : <b>{r.title}</b>}</td>
-      <td>
-        <button onClick={() => doDelete(i)}>X</button>
-      </td>
-    </tr>
-  ));
 }
